@@ -1,25 +1,20 @@
 import { Router } from "express";
 import { Request,Response } from "express";
+import { cancelOrder, captureOrder, createOrder } from "../middlewares/paymendController";
+
+
 
 const routerPaymend = Router();
 
-routerPaymend.get('/',(req:Request, res:Response)=>{
+routerPaymend.get('/create',createOrder)
 
-        res.json({msg:'Hola'}) 
-        
-})
+routerPaymend.get('/capture',captureOrder)
 
-routerPaymend.get('/',(req:Request, res:Response)=>{
+routerPaymend.get('/cancel',cancelOrder)
 
-    res.json({msg:'Hola3'}) 
-    
-})
 
-routerPaymend.get('/',(req:Request, res:Response)=>{
 
-    res.json({msg:'Hola2'}) 
-    
-})
+
 
 
 export default routerPaymend
