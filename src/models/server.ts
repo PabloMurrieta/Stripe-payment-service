@@ -1,4 +1,5 @@
-import express, { Application } from 'express'
+import express, { Application, json } from 'express'
+import routerPaymend from '../routes/paymend.routes.js';
 
 
 
@@ -7,7 +8,7 @@ class Server {
     private app: Application;
     private port: string;
     private path = {
-        paymend: 'api/paymend'
+        paymend: '/api/paymend'
     }
 
 
@@ -22,8 +23,12 @@ class Server {
     }
 
     db(){}
-    middlewares(){}
-    routes() {}
+    middlewares(){
+        this.app.use(express.json())
+    }
+    routes() {
+        this.app.use(this.path.paymend,routerPaymend)
+    }
     listen() {
         this.app.listen(this.port, () => {
 
