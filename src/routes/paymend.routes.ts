@@ -6,15 +6,11 @@ import { cancelOrder, captureOrder, createOrder } from "../controllers/paymendCo
 
 const routerPaymend = Router();
 
-routerPaymend.get('/create',createOrder)
+routerPaymend.post('/create',createOrder)
 
 routerPaymend.get('/capture',captureOrder)
 
 routerPaymend.get('/cancel',cancelOrder)
-
-
-
-
 
 
 export default routerPaymend
