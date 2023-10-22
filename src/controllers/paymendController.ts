@@ -22,8 +22,8 @@ export const createOrder = async (req: Request, res: Response) => {
                     "landing_page": "LOGIN",
                     "shipping_preference": "NO_SHIPPING",
                     "user_action": "PAY_NOW",
-                    "return_url": "http://localhost:8081/capture",
-                    "cancel_url": "http://localhost:8081/cancel"
+                    "return_url": "http://localhost:8081/api/paymend/capture",
+                    "cancel_url": "http://localhost:8081/api/paymend/cancel"
                 }
             }
         }
@@ -61,12 +61,40 @@ export const createOrder = async (req: Request, res: Response) => {
     
 
 
-export const captureOrder = (req: Request, res: Response) => {
+export const captureOrder = async (req: Request, res: Response) => {
 
-    res.json({ msg: 'capture Order' })
+
+    const {token, PayerID} = req.query;
+
+
+    const params = new URLSearchParams()
+    params.append("grant_type","client_credentials")
+    const {data:{access_token}} = await axios.post(`${process.env.PAYPAL_PAI_URL}/v1/oauth2/token`,params,{
+        headers:{
+            "Content-Type":'application/x-www-form-urlencoded'
+        },
+        auth:{
+            username:process.env.CLIENT_ID || '',
+            password:process.env.SECRET_KEY || ''
+        }
+    })
+
+
+    const response = await axios.post(
+        `${process.env.PAYPAL_PAI_URL}/v2/checkout/orders/${token}/capture`, 
+        {},
+        {
+          headers: {
+            'PayPal-Request-Id': `${PayerID}`,
+            'Authorization': `Bearer ${access_token}`
+          }
+        }
+      );
+
+    console.log(response.data)
+    return res.send('paymed')
 
 }
-
 export const cancelOrder = (req: Request, res: Response) => {
 
     res.json({ msg: 'cancel Order' })
