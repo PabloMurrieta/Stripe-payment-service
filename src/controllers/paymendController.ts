@@ -57,10 +57,6 @@ export const createOrder = async (req: Request, res: Response) => {
      res.status(200).json(data)
 }
 
-
-    
-
-
 export const captureOrder = async (req: Request, res: Response) => {
 
 
@@ -91,12 +87,11 @@ export const captureOrder = async (req: Request, res: Response) => {
         }
       );
 
-    console.log(response.data)
-    return res.send('paymed')
+    return res.redirect('/paymend.html');
 
 }
 export const cancelOrder = (req: Request, res: Response) => {
 
-    res.json({ msg: 'cancel Order' })
+    res.redirect('/');
 
 }

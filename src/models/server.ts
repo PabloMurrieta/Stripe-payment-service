@@ -1,5 +1,6 @@
 import express, { Application, json } from 'express'
 import routerPaymend from '../routes/paymend.routes.js';
+import path from 'path';
 
 
 
@@ -25,7 +26,7 @@ class Server {
     db(){}
     middlewares(){
         this.app.use(express.json());
-        this.app.use(express.static('public'))
+        this.app.use(express.static(path.resolve('src/public')))
 
     }
     routes() {
