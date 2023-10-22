@@ -6,8 +6,6 @@ import tokenP from "../utils/tokenPaypal";
 export const createOrder = async (req: Request, res: Response) => {
 
 
-
-    
     const order = {
 
         "intent": "CAPTURE",
@@ -23,8 +21,8 @@ export const createOrder = async (req: Request, res: Response) => {
                     "landing_page": "LOGIN",
                     "shipping_preference": "NO_SHIPPING",
                     "user_action": "PAY_NOW",
-                    "return_url": "http://localhost:8081/api/paymend/capture",
-                    "cancel_url": "http://localhost:8081/api/paymend/cancel"
+                    "return_url": `${process.env.DOMAIN}/api/paymend/capture`,
+                    "cancel_url": `${process.env.DOMAIN}/api/paymend/cancel`
                 }
             }
         }
@@ -32,16 +30,12 @@ export const createOrder = async (req: Request, res: Response) => {
     //token
     const access_token = await tokenP();
   
-
-    
      const {data} = await axios.post(`${process.env.PAYPAL_PAI_URL}/v2/checkout/orders`, order,   
-     {
-        
+     {        
         headers: {
             
             Authorization: `Bearer ${access_token}`
         }
-
      }
      );
      res.status(200).json(data)
@@ -49,13 +43,10 @@ export const createOrder = async (req: Request, res: Response) => {
 
 export const captureOrder = async (req: Request, res: Response) => {
 
-
     const {token, PayerID} = req.query;
-
 
     const access_token = await tokenP();
     
-
     const response = await axios.post(
         `${process.env.PAYPAL_PAI_URL}/v2/checkout/orders/${token}/capture`, 
         {},
