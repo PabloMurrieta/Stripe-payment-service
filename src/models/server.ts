@@ -1,13 +1,16 @@
 import express, { Application, json } from 'express'
-import routerPaymend from '../routes/paymend.routes.js';
 import path from 'path';
 import conectarDB from '../config/db.js';
+
+import routerPaymend from '../routes/paymend.routes.js';
+import routerAuth from '../routes/auth.routes.js';
 
 class Server {
 
     private app: Application;
     private port: string;
     private path = {
+        auth   : '/api/auth',
         paymend: '/api/paymend'
     }
 
@@ -30,6 +33,7 @@ class Server {
 
     }
     routes() {
+        this.app.use(this.path.auth,routerAuth)
         this.app.use(this.path.paymend,routerPaymend)
     }
     listen() {
