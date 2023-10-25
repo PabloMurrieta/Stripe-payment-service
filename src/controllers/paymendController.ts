@@ -5,6 +5,7 @@ import tokenP from "../utils/tokenPaypal";
 
 export const createOrder = async (req: Request, res: Response) => {
 
+    const amount = req.body;
 
     const order = {
 
@@ -27,6 +28,7 @@ export const createOrder = async (req: Request, res: Response) => {
             }
         }
     }
+
     //token
     const access_token = await tokenP();
   
@@ -58,11 +60,21 @@ export const captureOrder = async (req: Request, res: Response) => {
         }
       );
 
+      console.log(response);
+
     return res.redirect('/paymend.html');
 
 }
+
+
 export const cancelOrder = (req: Request, res: Response) => {
 
     res.redirect('/');
 
 }
+
+
+
+
+
+
