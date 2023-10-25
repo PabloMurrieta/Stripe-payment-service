@@ -3,8 +3,6 @@ import routerPaymend from '../routes/paymend.routes.js';
 import path from 'path';
 import conectarDB from '../config/db.js';
 
-
-
 class Server {
 
     private app: Application;
@@ -12,7 +10,6 @@ class Server {
     private path = {
         paymend: '/api/paymend'
     }
-
 
     constructor() {
 

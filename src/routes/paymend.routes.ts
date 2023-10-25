@@ -1,6 +1,8 @@
 import { Router } from "express";
-import { Request,Response } from "express";
-import { cancelOrder, captureOrder, createOrder } from "../controllers/paymendController";
+
+import { cancelOrder,
+         captureOrder,  
+         createOrder } from "../controllers/paymendController";
 
 
 
