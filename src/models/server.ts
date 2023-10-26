@@ -4,14 +4,16 @@ import conectarDB from '../config/db.js';
 
 import routerPaymend from '../routes/paymend.routes.js';
 import routerAuth from '../routes/auth.routes.js';
+import routerWebhook from '../routes/webhook.routes.js';
 
 class Server {
 
     private app: Application;
     private port: string;
     private path = {
-        auth   : '/api/auth',
-        paymend: '/api/paymend'
+        auth         : '/api/auth',
+        paymend      : '/api/paymend',
+        webhook      : '/api/webhook'
     }
 
     constructor() {
@@ -35,6 +37,8 @@ class Server {
     routes() {
         this.app.use(this.path.auth,routerAuth)
         this.app.use(this.path.paymend,routerPaymend)
+        this.app.use(this.path.webhook,routerWebhook)
+
     }
     listen() {
         this.app.listen(this.port, () => {
