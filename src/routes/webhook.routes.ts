@@ -1,13 +1,10 @@
-import { Request, Response } from "express";
-
 import { Router } from "express";
+
+import { createWebHook } from "../controllers/webHookController";
 
 const routerWebhook = Router();
 
-routerWebhook.get('/',(req: Request, res: Response) => {
-    console.log('conectado');
-    res.json('conectado')
-});
+routerWebhook.get('/',createWebHook)
 
 export default routerWebhook;
 
