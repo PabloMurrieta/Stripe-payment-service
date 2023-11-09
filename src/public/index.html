@@ -20,7 +20,10 @@
         chackout.addEventListener('click', async () =>{
 
             const response = await fetch ('/api/paymend/create', {
-                method:'POST'
+                method:'POST',
+                headers: {
+                    Origin: 'localhost:8080'
+                }
             })
 
             const data = await response.json()

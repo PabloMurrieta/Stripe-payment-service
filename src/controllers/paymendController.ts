@@ -1,77 +1,43 @@
 import { Request, Response } from "express";
-import axios from "axios";
-import tokenP from "../utils/tokenPaypal";
+
+import Stripe from "stripe";
+
+const stripe = new Stripe(`sk_test_51O9hE0AKuedb3a7QqimTWrnCO1X53VRgXZHSP0SOWyet8iFnaspkhHv0BLwQB0QXFjmMayNYYHQs5FqJW8Jzwo3i00aCKLDpHb`);
 
 
-export const createOrder = async (req: Request, res: Response) => {
-
-    const amount = req.body;
-
-    const order = {
-
-        "intent": "CAPTURE",
-        "purchase_units": [{ "reference_id": "d9f80740-38f0-11e8-b467-0ed5f89f718b", "amount": { "currency_code": "USD", "value": "1.00" } }],
-        "description":"maus",
-        "payment_source": {
-        
-            "paypal": {
-                "experience_context": {
-                    "payment_method_preference": "IMMEDIATE_PAYMENT_REQUIRED",
-                    "brand_name": "Mycompani",
-                    "locale": "en-US",
-                    "landing_page": "LOGIN",
-                    "shipping_preference": "NO_SHIPPING",
-                    "user_action": "PAY_NOW",
-                    "return_url": `${process.env.DOMAIN}/api/paymend/capture`,
-                    "cancel_url": `${process.env.DOMAIN}/api/paymend/cancel`
-                }
-            }
-        }
-    }
-
-    //token
-    const access_token = await tokenP();
+export const createSubscription = async (req: Request, res: Response) => {
+    try {
+        const paymentLink = await stripe.paymentLinks.create({
+            line_items: [
+              {
+                price: `price_1OA1etAKuedb3a7QdTmWNC7g`,
+                quantity: 1,
+              },
+            ],
+          });
+          
   
-     const {data} = await axios.post(`${process.env.PAYPAL_PAI_URL}/v2/checkout/orders`, order,   
-     {        
-        headers: {
-            
-            Authorization: `Bearer ${access_token}`
-        }
-     }
-     );
-     res.status(200).json(data)
-}
+      res.status(303).redirect(( paymentLink).url || '');
+    } catch (error) {
+      res.status(500).json({ msg: { error } });
+    }
+  }
 
-export const captureOrder = async (req: Request, res: Response) => {
+export const captureSubscription = async (req: Request, res: Response) => {
 
-    const {token, PayerID} = req.query;
-
-    const access_token = await tokenP();
     
-    const response = await axios.post(
-        `${process.env.PAYPAL_PAI_URL}/v2/checkout/orders/${token}/capture`, 
-        {},
-        {
-          headers: {
-            'PayPal-Request-Id': `${PayerID}`,
-            'Authorization': `Bearer ${access_token}`
-          }
-        }
-      );
-
-      console.log(response);
-
-    return res.redirect('/paymend.html');
-
-}
+    console.log('llego');
+    res.send({msg:'succes'})
 
 
-export const cancelOrder = (req: Request, res: Response) => {
+};
+
+
+export const cancelSubcription = (req: Request, res: Response) => {
 
     res.redirect('/');
 
-}
+};
 
 
 

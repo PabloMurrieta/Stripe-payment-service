@@ -1,18 +1,17 @@
 import { Router } from "express";
 
-import { cancelOrder,
-         captureOrder,  
-         createOrder } from "../controllers/paymendController";
-
+import {cancelSubcription,
+         captureSubscription,  
+         createSubscription } from "../controllers/paymendController";
 
 
 const routerPaymend = Router();
 
-routerPaymend.post('/create',createOrder)
+routerPaymend.post('/create',createSubscription);
 
-routerPaymend.get('/capture',captureOrder)
+routerPaymend.get('/success',captureSubscription);
 
-routerPaymend.get('/cancel',cancelOrder)
+routerPaymend.get('/cancel',cancelSubcription);
 
 
-export default routerPaymend
+export default routerPaymend;

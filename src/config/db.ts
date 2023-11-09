@@ -4,7 +4,7 @@ const conectarDB = async () =>{
 
     try {
 
-     await mongoose.connect(process.env.MONGODB_CNN || '')
+     await mongoose.connect(`${process.env.MONGODB_CNN}` || '')
      console.log('Conectado con la Base de datos en Mongoo');
         
     } catch (error) {
